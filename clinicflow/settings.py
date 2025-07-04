@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'ninja',
-    
+    'ninja_jwt',
+    'ninja_extra',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
+
+
+# Ninja JWT settings
+
+from datetime import timedelta
+
+NINJA_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),     # 1 hour access token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),        # 7 days refresh token
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,                          # Use Django's SECRET_KEY
+    'AUTH_TOKEN_CLASSES': ('ninja_jwt.tokens.AccessToken',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
