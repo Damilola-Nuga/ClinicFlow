@@ -7,6 +7,7 @@ from ninja_jwt.routers.obtain import obtain_pair_router
 from ninja_jwt.routers.verify import verify_router
 from ninja_jwt.routers.blacklist import blacklist_router
 from .endpoints import doctor_router
+from .endpoints import patient_router
 
 api = NinjaAPI()
 
@@ -16,6 +17,7 @@ api.add_router('/token/blacklist', blacklist_router, tags=["Auth"])
 
 
 api.add_router('/doctors', doctor_router)
+api.add_router('/patients', patient_router)  
 
 # APIException Handler
 def api_exception_handler(request, exc):
