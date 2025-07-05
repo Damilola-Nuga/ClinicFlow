@@ -1,4 +1,4 @@
-from ninja import Router
+from ninja import Router, Query
 
 from ninja.errors import HttpError
 from ninja_jwt.authentication import JWTAuth
@@ -7,10 +7,16 @@ from .models import User, Doctor
 from django.contrib.auth.hashers import make_password
 from django.db import transaction
 
+from ninja.pagination import paginate
+from typing import List
+
+
 import secrets
 import string
 
 # Doctor endpoints (admin-only)
+
+
 doctor_router = Router(auth=JWTAuth(), tags=['Doctors'])
 
 
@@ -63,3 +69,53 @@ def create_doctor(request, payload: DoctorCreateSchema):
             )
     except Exception as e:
         raise HttpError(400, f"Error creating doctor account: {str(e)}")
+    
+
+
+
+@doctor_router.get("/", response=List[DoctorOutSchema])
+@paginate   
+def list_doctors(request, specialty: str = Query(None), name: str = Query(None)):
+    is_admin(request)
+    queryset = Doctor.objects.select_related("user").all()
+    if specialty:
+        queryset = queryset.filter(specialty__icontains=specialty)
+    if name:
+        queryset = queryset.filter(
+            first_name__icontains=name
+        ) | queryset.filter(last_name__icontains=name)
+
+    return [
+    DoctorOutSchema(
+        id=doctor.id,
+        user_id=doctor.user.id,
+        first_name=doctor.first_name,
+        last_name=doctor.last_name,
+        specialty=doctor.specialty,
+        email=doctor.user.email,
+        phone=doctor.phone,
+        created_at=doctor.created_at
+    )
+    for doctor in queryset
+    ]
+
+
+@doctor_router.get("/{doctor_id}/", response=DoctorOutSchema)
+def get_doctor(request, doctor_id: int):
+    is_admin(request)
+    try:
+        doctor = Doctor.objects.select_related("user").get(id=doctor_id)
+        return DoctorOutSchema(
+            id=doctor.id,
+            user_id=doctor.user.id,
+            first_name=doctor.first_name,
+            last_name=doctor.last_name,
+            specialty=doctor.specialty,
+            email=doctor.user.email,
+            phone=doctor.phone,
+            created_at=doctor.created_at
+        )
+    except Doctor.DoesNotExist:
+        raise HttpError(404, "Doctor not found")
+
+    
