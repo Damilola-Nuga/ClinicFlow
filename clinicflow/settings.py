@@ -133,7 +133,7 @@ AUTH_USER_MODEL = 'api.User'
 from datetime import timedelta
 
 NINJA_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),     # 1 hour access token
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),     # 1 day access token
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),        # 7 days refresh token
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,                          # Use Django's SECRET_KEY

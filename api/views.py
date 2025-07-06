@@ -9,6 +9,7 @@ from ninja_jwt.routers.blacklist import blacklist_router
 from .endpoints import doctor_router
 from .endpoints import patient_router
 from .endpoints import appointment_router
+from .endpoints import prescription_router
 
 api = NinjaAPI()
 
@@ -20,6 +21,7 @@ api.add_router('/token/blacklist', blacklist_router, tags=["Auth"])
 api.add_router('/doctors', doctor_router)
 api.add_router('/patients', patient_router)
 api.add_router('/appointments', appointment_router)
+api.add_router('/prescriptions', prescription_router)
 
 # APIException Handler
 def api_exception_handler(request, exc):

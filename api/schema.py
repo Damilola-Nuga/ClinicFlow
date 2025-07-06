@@ -1,8 +1,9 @@
 from ninja import Schema
 from datetime import datetime, date
-from typing import Optional, List
+from typing import Optional, List, Annotated
 from pydantic import EmailStr
 from decimal import Decimal
+from pydantic import constr
 
 
 #Admin Related Schemas
@@ -95,4 +96,25 @@ class AppointmentOutSchema(Schema):
     reason: str | None
     status: str
     appointment_cost: Decimal
+    created_at: datetime
+
+
+# Prescription Related Schemas
+
+class PrescriptionCreateSchema(Schema):
+    appointment_id: int
+    medication: Annotated[str, constr(max_length=100)]
+    dosage: Annotated[str, constr(max_length=100)]
+    instructions: str
+    date_issued: date
+    prescription_cost: Decimal | None = None
+
+class PrescriptionOutSchema(Schema):
+    id: int
+    appointment_id: int
+    medication: str
+    dosage: str
+    instructions: str
+    date_issued: date
+    prescription_cost: Decimal | None = None
     created_at: datetime
