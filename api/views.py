@@ -10,6 +10,7 @@ from .endpoints import doctor_router
 from .endpoints import patient_router
 from .endpoints import appointment_router
 from .endpoints import prescription_router
+from .endpoints import billing_router
 
 api = NinjaAPI()
 
@@ -22,6 +23,7 @@ api.add_router('/doctors', doctor_router)
 api.add_router('/patients', patient_router)
 api.add_router('/appointments', appointment_router)
 api.add_router('/prescriptions', prescription_router)
+api.add_router('/billing', billing_router)
 
 # APIException Handler
 def api_exception_handler(request, exc):

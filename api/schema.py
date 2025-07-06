@@ -118,3 +118,21 @@ class PrescriptionOutSchema(Schema):
     date_issued: date
     prescription_cost: Decimal | None = None
     created_at: datetime
+
+
+# Billing_Report Related Schemas
+
+class PatientBreakdownSchema(Schema):
+    patient_id: int
+    full_name: str
+    appointment_total: Decimal
+    prescription_total: Decimal
+    total_amount: Decimal
+
+class BillingReportSchema(Schema):
+    year: int
+    month: int | None = None
+    total_appointments: int
+    total_prescriptions: int
+    total_income: Decimal
+    breakdown_by_patient: List[PatientBreakdownSchema]
