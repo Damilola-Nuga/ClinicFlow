@@ -2,6 +2,8 @@ from ninja import Schema
 from datetime import datetime, date
 from typing import Optional, List
 from pydantic import EmailStr
+from decimal import Decimal
+
 
 #Admin Related Schemas
 
@@ -65,3 +67,32 @@ class PatientUpdateSchema(Schema):
     email: EmailStr | None = None
     address: str | None = None
     insurance_id: str | None = None
+
+
+
+#Appointment Related Schemas
+
+class AppointmentCreateSchema(Schema):
+    patient_id: int
+    doctor_id: int
+    date_time: datetime # will validate in endpoint
+    reason: str | None = None
+    appointment_cost: Decimal # will validate in endpoint
+
+class AppointmentUpdateSchema(Schema):
+    patient_id: int | None = None
+    doctor_id: int | None = None
+    date_time: datetime | None = None
+    reason: str | None = None
+    status: str | None = None  # will validate in endpoint
+    appointment_cost: Decimal | None = None  # validate in endpoint
+
+class AppointmentOutSchema(Schema):
+    id: int
+    patient_id: int
+    doctor_id: int
+    date_time: datetime
+    reason: str | None
+    status: str
+    appointment_cost: Decimal
+    created_at: datetime
