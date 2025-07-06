@@ -431,9 +431,9 @@ def create_prescription(request, payload: PrescriptionCreateSchema):
     if appointment.doctor_id != user.doctor.id:
         raise HttpError(403, "You are not the assigned doctor for this appointment.")
     
-    # Ensure appointment is not canceled
-    if appointment.status == Appointment.STATUS_CANCELED:
-        raise HttpError(400, "Cannot create prescription for a canceled appointment.")
+    # Ensure appointment is completed
+    if appointment.status != Appointment.STATUS_COMPLETED:
+        raise HttpError(400, "Prescriptions can only be created for completed appointments.")
 
     # Validate date
     if payload.date_issued < appointment.date_time.date():
