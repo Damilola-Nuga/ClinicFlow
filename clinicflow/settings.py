@@ -141,3 +141,7 @@ NINJA_JWT = {
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
 }
+
+# Email settings for development
+# Use console backend to print emails to console instead of sending them
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

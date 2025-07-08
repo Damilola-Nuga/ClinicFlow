@@ -6,7 +6,15 @@ from decimal import Decimal
 from pydantic import constr
 
 
-#Admin Related Schemas
+# Admin Schema
+
+class AdminCreateSchema(Schema):
+    username: str
+    email: EmailStr
+    password: str
+
+
+#Doctor Related Schemas
 
 class DoctorCreateSchema(Schema):
     first_name: str

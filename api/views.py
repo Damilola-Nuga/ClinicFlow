@@ -6,11 +6,12 @@ from ninja_extra import exceptions
 from ninja_jwt.routers.obtain import obtain_pair_router
 from ninja_jwt.routers.verify import verify_router
 from ninja_jwt.routers.blacklist import blacklist_router
-from .endpoints import doctor_router
-from .endpoints import patient_router
-from .endpoints import appointment_router
-from .endpoints import prescription_router
-from .endpoints import billing_router
+from .endpoints.management import management_router
+from .endpoints.doctors import doctor_router
+from .endpoints.patients import patient_router
+from .endpoints.appointments import appointment_router
+from .endpoints.prescriptions import prescription_router
+from .endpoints.billing import billing_router
 
 api = NinjaAPI()
 
@@ -24,6 +25,7 @@ api.add_router('/patients', patient_router)
 api.add_router('/appointments', appointment_router)
 api.add_router('/prescriptions', prescription_router)
 api.add_router('/billing', billing_router)
+api.add_router('/management', management_router)
 
 # APIException Handler
 def api_exception_handler(request, exc):
