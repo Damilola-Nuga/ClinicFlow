@@ -5,3 +5,6 @@ db.sqlite3
 .env
 doctors.csv
 api/old_code/
+venv-py313/
+clinicflow-openapi.json
+clinicflow-openapi.json:Zone.Identifier
